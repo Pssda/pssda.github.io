@@ -1,5 +1,7 @@
 'use strict';
 
+import extend from 'extend';
+import fs from 'fs';
 import path from 'path';
 import gulp from 'gulp';
 import babel from 'gulp-babel';
@@ -69,8 +71,39 @@ gulp.task('build-pug', () => {
   const locals = {
     title: pkg.name,
     description: pkg.description,
-    author: pkg.author
+    author: pkg.author,
+    contents: [],
   };
+
+  const filename = (v) => {
+    const s = v.split('.');
+    const ext = s.pop();
+    const name = s.join('.');
+    return { name, ext };
+  };
+  const assetsDir = path.join(__dirname, 'assets');
+  const contents = [];
+  fs.readdirSync(assetsDir).forEach((file) => {
+    const { name, ext } = filename(file);
+    const content = contents.find(content => content.name === name);
+    let loaded;
+    if (ext === 'js') {
+      loaded = require(path.join(assetsDir, name));
+      loaded.name = name;
+      loaded.title = loaded.title.replace(/\n/g, '<br/>');
+      loaded.body = loaded.body.replace(/\n/g, '<br/>');
+    } else {
+      const image = path.join('assets', file);
+      loaded = { image };
+    }
+    if (content) {
+      extend(content, loaded);
+    } else {
+      contents.push(loaded);
+    }
+  });
+  contents.sort((a, b) => -a.date.localeCompare(b.date));
+  extend(locals, { contents });
 
   return gulp.src(pugDir)
     .on('error', onError)

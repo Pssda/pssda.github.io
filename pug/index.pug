@@ -1,15 +1,88 @@
 doctype html
 html
-    head
-        title=title
-        meta(name='description', content=description)
-        meta(name='author', content=author)
-        meta(property='og:title', content=title)
-        meta(property='og:image', content='http://jasonpark.me/DuoCoder/branding/screenshot.png')
-        meta(property='og:description', content=description)
-        link(rel='stylesheet', href='stylesheet.css')
-        script(type='text/javascript', src='script.js')
-    body
-        div.page.page-main
-            div.eye.eye-left
-            div.eye.eye-right
+  head
+    title=title
+    meta(name='description', content=description)
+    meta(name='author', content=author)
+    meta(property='og:title', content=title)
+    meta(property='og:image', content='http://jasonpark.me/DuoCoder/branding/screenshot.png')
+    meta(property='og:description', content=description)
+    link(rel='stylesheet', href='stylesheet.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700')
+    script(type='text/javascript', src='script.js')
+    script(type='text/javascript', src='lib/shapes-polyfill.min.js', data-auto-run='false')
+    script(type='text/javascript').
+      (function () {
+        var path = '//easy.myfonts.net/v2/js?sid=511(font-family=Baskerville+Std+Roman)&sid=513(font-family=Baskerville+Std+Bold)&key=LLSz7vuEvD',
+                protocol = ('https:' == document.location.protocol ? 'https:' : 'http:'),
+                trial = document.createElement('script');
+        trial.type = 'text/javascript';
+        trial.async = true;
+        trial.src = protocol + path;
+        var head = document.getElementsByTagName("head")[0];
+        head.appendChild(trial);
+      })();
+  body.loading
+    div.page-main
+      div.champagne
+      div.fake.band
+      div.section-face
+        div.background
+        div.band
+          span.label
+            | WEB DEVELOPEMENT<br/>
+            | & DESIGN
+      div.fake.section-eye-left
+      div.section-eye-left
+        div.background-container
+          div.background
+        div.eye
+          div.label
+            | GRAPHIC &<br/>
+            | PUBLISHING
+      div.fake.section-eye-right
+      div.section-eye-right
+        div.background-container
+          div.background
+        div.eye
+          div.label
+            | CONSULTION &<br/>
+            | MANAGEMENT
+      div.logo
+        img(src='/img/logo.svg')
+    each content in contents
+      div.page-desc(style=`background-image: url(${content.image})`)
+        if (content.direction == 'left')
+          div.panel-left
+            div.panel-outline
+            div.panel-content
+              div.panel-title
+                != content.title
+              div.panel-body
+                != content.body
+            div.contact-container
+              div.contact
+        else
+          div.panel-right
+            div.contact-container
+              div.contact
+            div.panel-outline
+            div.panel-content
+              div.panel-body
+                != content.body
+              div.panel-title
+                != content.title
+    svg#clip-defs(width='0', height='0')
+      defs
+        clipPath#clip-eye-left(clipPathUnits='objectBoundingBox')
+          polygon(points='0 0, 0 1, .5 1, 0 0')
+        clipPath#clip-eye-left-hover(clipPathUnits='objectBoundingBox')
+          polygon(points='0 0, 0 1, .5 1, 1 0')
+        clipPath#clip-eye-right(clipPathUnits='objectBoundingBox')
+          polygon(points='1 0, 1 1, .5 1, 1 0')
+        clipPath#clip-eye-right-hover(clipPathUnits='objectBoundingBox')
+          polygon(points='1 0, 1 1, .5 1, 0 0')
+        clipPath#clip-panel-left(clipPathUnits='objectBoundingBox')
+          polygon(points='0 0, 0 1, 1 0')
+        clipPath#clip-panel-right(clipPathUnits='objectBoundingBox')
+          polygon(points='1 0, 1 1, 0 1')

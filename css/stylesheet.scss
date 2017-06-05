@@ -1,19 +1,339 @@
+$color-primary: #464B58;
+$border-width: 2px;
+$logo-top: 57px;
+$logo-height: 87px;
+$loading-anim-duration: 1s;
+$contact-size: 87px;
+
 html,
 body {
   width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
   overflow-y: scroll;
+  font-size: 14px;
+  font-family: Baskerville Std Roman serif;
+  letter-spacing: .02em;
+
+  &.loading {
+    .page {
+      display: none;
+    }
+
+    .page-main {
+      display: flex;
+      .section-face,
+      .section-eye {
+        opacity: 0;
+      }
+
+      .logo {
+        top: calc(50% - #{$logo-top} - #{$logo-height} / 2);
+      }
+    }
+  }
+}
+
+@mixin fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .page {
   display: flex;
-  align-items: stretch;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.eye {
-  flex: 1;
+.page-main {
+  @extend .page;
+
+  .fake {
+    @include fill;
+    z-index: 1;
+    opacity: 0;
+
+    &.band:hover + .section-face {
+      .background {
+        top: 0;
+        opacity: 1;
+      }
+    }
+
+    @mixin clip-hover-eye-left {
+      clip-path: url(#clip-eye-left-hover);
+      clip-path: polygon(0 0, 0 100%, 50% 100%, 100% 0);
+    }
+    &.section-eye-left:hover + .section-eye-left {
+      @include clip-hover-eye-left;
+
+      .background-container {
+        @include clip-hover-eye-left;
+      }
+    }
+
+    @mixin clip-hover-eye-right {
+      clip-path: url(#clip-eye-right-hover);
+      clip-path: polygon(100% 0, 100% 100%, 50% 100%, 0 0);
+    }
+    &.section-eye-right:hover + .section-eye-right {
+      @include clip-hover-eye-right;
+
+      .background-container {
+        @include clip-hover-eye-right;
+      }
+    }
+  }
+
+  .champagne {
+    @include fill;
+    background: url(/img/champagne.svg) repeat-y top center;
+
+    @keyframes anim-champagne {
+      from {
+        background-position-y: 800px;
+      }
+      to {
+        background-position-y: 0;
+      }
+    }
+
+    animation: anim-champagne 3s ease-out;
+  }
+
+  .band {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 47vh;
+    height: 165px;
+  }
+
+  .label {
+    text-align: center;
+  }
+
+  .section-face {
+    @include fill;
+    transition: opacity $loading-anim-duration;
+
+    .background {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: url(/img/main/background-center.jpeg) no-repeat center;
+      background-size: cover;
+      opacity: 0;
+      transition: top 1s, opacity 1s;
+    }
+
+    .band {
+      background-color: $color-primary;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .label {
+        color: white;
+      }
+    }
+  }
+
+  .section-eye {
+    @include fill;
+    transition: opacity $loading-anim-duration, clip-path 1s ease;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    .background-container {
+      @include fill;
+      transition: clip-path 1s ease;
+      background-color: $color-primary;
+
+      .background {
+        @include fill;
+        background: no-repeat center;
+        background-size: cover;
+        opacity: .7;
+      }
+    }
+
+    .eye {
+      margin: 5vh 2vw;
+      position: relative;
+      width: 28vw;
+      height: 18vw;
+      background: no-repeat center;
+      background-size: contain;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .label {
+        color: black;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .section-eye-left {
+    @mixin clip {
+      clip-path: url(#clip-eye-left);
+      clip-path: polygon(0 0, 0 100%, 50% 100%, 0 0);
+    }
+
+    @extend .section-eye;
+    @include clip;
+
+    .background-container {
+      @include clip;
+      top: $border-width;
+      right: $border-width;
+
+      .background {
+        background-image: url(/img/main/background-left.png);
+      }
+    }
+
+    .eye {
+      align-self: flex-start;
+      background-image: url(/img/eye-left.svg);
+    }
+  }
+
+  .section-eye-right {
+    @mixin clip {
+      clip-path: url(#clip-eye-right);
+      clip-path: polygon(100% 0, 100% 100%, 50% 100%, 100% 0);
+    }
+
+    @extend .section-eye;
+    @include clip;
+
+    .background-container {
+      @include clip;
+      top: $border-width;
+      left: $border-width;
+
+      .background {
+        background-image: url(/img/main/background-right.png);
+      }
+    }
+
+    .eye {
+      align-self: flex-end;
+      background-image: url(/img/eye-right.svg);
+    }
+  }
+
+  .logo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: $logo-top;
+    text-align: center;
+    transition: top $loading-anim-duration;
+
+    img {
+      height: $logo-height;
+    }
+  }
 }
 
-.eye-left {
-  background-image: url(/img/background-left.png);
+.page-desc {
+  @extend .page;
+  background-size: cover;
+  background-position: center;
+
+  @mixin panel {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: $color-primary;
+    color: white;
+    overflow: hidden;
+
+    .panel-outline {
+      width: 100%;
+      height: 100%;
+      shape-margin: 2em;
+    }
+
+    .panel-content {
+      height: 52%;
+      box-sizing: border-box;
+      padding: 2em;
+
+      .panel-title {
+        margin: 3em 0;
+        font-size: 1.06em;
+        text-align: center;
+      }
+    }
+
+    .contact-container {
+      text-align: center;
+      padding: 2em;
+
+      .contact {
+        display: inline-block;
+        cursor: pointer;
+        width: $contact-size;
+        height: $contact-size;
+        background: url(/img/contact.svg) no-repeat center;
+        background-size: contain;
+
+        &:hover {
+          background-image: url(/img/contact-highlight.svg);
+        }
+      }
+    }
+  }
+
+  .panel-left {
+    @include panel;
+    left: 0;
+    clip-path: url(#clip-panel-left);
+
+    .panel-outline {
+      float: right;
+      shape-outside: polygon(100% 0, 100% 100%, 0 100%);
+    }
+
+    .panel-content {
+      text-align: left;
+    }
+  }
+
+  .panel-right {
+    @include panel;
+    right: 0;
+    clip-path: url(#clip-panel-right);
+
+    .panel-outline {
+      float: left;
+      shape-outside: polygon(0 0, 0 100%, 100% 0);
+    }
+
+    .panel-content {
+      text-align: right;
+    }
+  }
+}
+
+#clip-defs {
+  position: absolute;
+  z-index: -1;
 }
