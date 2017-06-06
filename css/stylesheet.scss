@@ -15,7 +15,7 @@ body {
 
 body {
   overflow-y: scroll;
-  font-size: 14px;
+  font-size: 16px;
   font-family: Baskerville Std Roman serif;
   letter-spacing: .02em;
 
@@ -65,6 +65,43 @@ body {
       .background {
         top: 0;
         opacity: 1;
+      }
+
+      .band {
+        background-color: rgba($color-primary, .47);
+      }
+
+      & + * + .section-eye-left,
+      & + * + .section-eye-left + * + .section-eye-right {
+        background-color: $color-primary;
+
+        .background-container {
+          display: none;
+        }
+
+        .geometry {
+          display: block;
+        }
+      }
+
+      & + * + .section-eye-left {
+        .eye {
+          background-image: url(/img/eye-left-black.svg);
+
+          .label {
+            color: white;
+          }
+        }
+      }
+
+      & + * + .section-eye-left + * + .section-eye-right {
+        .eye {
+          background-image: url(/img/eye-right-black.svg);
+
+          .label {
+            color: white;
+          }
+        }
       }
     }
 
@@ -131,7 +168,7 @@ body {
       left: 0;
       right: 0;
       height: 100%;
-      background: url(/img/main/background-center.jpeg) no-repeat center;
+      background: url(/img/main/background-center.png) no-repeat center;
       background-size: cover;
       opacity: 0;
       transition: top 1s, opacity 1s;
@@ -142,6 +179,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: background 1s;
 
       .label {
         color: white;
@@ -151,39 +189,63 @@ body {
 
   .section-eye {
     @include fill;
-    transition: opacity $loading-anim-duration, clip-path 1s ease;
+    transition: opacity $loading-anim-duration, clip-path 1s;
     background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
 
     .background-container {
       @include fill;
-      transition: clip-path 1s ease;
-      background-color: $color-primary;
+      transition: clip-path 1s;
+      opacity: .7;
 
       .background {
         @include fill;
         background: no-repeat center;
         background-size: cover;
-        opacity: .7;
       }
     }
 
     .eye {
-      margin: 5vh 2vw;
-      position: relative;
-      width: 28vw;
-      height: 18vw;
+      position: absolute;
+      top: 32.2vh;
+      left: 2.3vw;
+      right: 2.3vw;
+      width: 27.7vw;
+      height: 100vh;
       background: no-repeat center;
-      background-size: contain;
+      background-size: 100% auto;
       display: flex;
       align-items: center;
       justify-content: center;
 
       .label {
+        margin-top: 4vh;
         color: black;
         font-weight: bold;
+      }
+    }
+
+    .geometry {
+      @include fill;
+      display: none;
+
+      * {
+        position: absolute;
+        left: 16.6vw;
+        right: 16.6vw;
+        border: 1px solid white;
+      }
+
+      .top {
+        top: 43.3vh;
+        height: calc(40.9vh - 2em);
+        border-bottom: none;
+      }
+
+      .bottom {
+        top: calc(84.2vh + 2em);
+        bottom: 0;
+        border-top: none;
+        border-bottom: none;
       }
     }
   }
@@ -210,6 +272,7 @@ body {
     .eye {
       align-self: flex-start;
       background-image: url(/img/eye-left.svg);
+      right: auto;
     }
   }
 
@@ -235,6 +298,7 @@ body {
     .eye {
       align-self: flex-end;
       background-image: url(/img/eye-right.svg);
+      left: auto;
     }
   }
 
@@ -272,7 +336,6 @@ body {
     }
 
     .panel-content {
-      height: 52%;
       box-sizing: border-box;
       padding: 2em;
 

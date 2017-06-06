@@ -40,6 +40,9 @@ html
           div.label
             | GRAPHIC &<br/>
             | PUBLISHING
+        div.geometry
+          div.top
+          div.bottom
       div.fake.section-eye-right
       div.section-eye-right
         div.background-container
@@ -48,6 +51,9 @@ html
           div.label
             | CONSULTION &<br/>
             | MANAGEMENT
+        div.geometry
+          div.top
+          div.bottom
       div.logo
         img(src='/img/logo.svg')
     each content in contents
@@ -64,9 +70,9 @@ html
               div.contact
         else
           div.panel-right
+            div.panel-outline
             div.contact-container
               div.contact
-            div.panel-outline
             div.panel-content
               div.panel-body
                 != content.body
