@@ -1,5 +1,5 @@
 module.exports = {
-  type: 'consulting',
+  type: 'web',
   title: `BUSINESS CARD FOR
 <b>XIABO CONSULTING CHINA</b>`,
   body: `SKILLS

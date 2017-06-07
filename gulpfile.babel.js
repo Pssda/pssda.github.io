@@ -90,8 +90,11 @@ gulp.task('build-pug', () => {
     if (ext === 'js') {
       loaded = require(path.join(assetsDir, name));
       loaded.name = name;
-      loaded.title = loaded.title.replace(/\n/g, '<br/>');
-      loaded.body = loaded.body.replace(/\n/g, '<br/>');
+      for (const key in loaded) {
+        if (/^(title|body|content)/.test(key)) {
+          loaded[key] = loaded[key].replace(/\n/g, '<br/>');
+        }
+      }
     } else {
       const image = path.join('assets', file);
       loaded = { image };
@@ -102,7 +105,7 @@ gulp.task('build-pug', () => {
       contents.push(loaded);
     }
   });
-  contents.sort((a, b) => -a.date.localeCompare(b.date));
+  contents.sort((a, b) => a.date ? -a.date.localeCompare(b.date) : 1);
   extend(locals, { contents });
 
   return gulp.src(pugDir)

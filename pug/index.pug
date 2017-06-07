@@ -7,10 +7,13 @@ html
     meta(property='og:title', content=title)
     meta(property='og:image', content='http://jasonpark.me/DuoCoder/branding/screenshot.png')
     meta(property='og:description', content=description)
+    meta(http-equiv='x-ua-compatible', content='ie=edge')
     link(rel='stylesheet', href='stylesheet.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700')
+    script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
     script(type='text/javascript', src='script.js')
     script(type='text/javascript', src='lib/shapes-polyfill.min.js', data-auto-run='false')
+    script(type='text/javascript', src='lib/svg4everybody.min.js')
     script(type='text/javascript').
       (function () {
         var path = '//easy.myfonts.net/v2/js?sid=511(font-family=Baskerville+Std+Roman)&sid=513(font-family=Baskerville+Std+Bold)&key=LLSz7vuEvD',
@@ -19,7 +22,7 @@ html
         trial.type = 'text/javascript';
         trial.async = true;
         trial.src = protocol + path;
-        var head = document.getElementsByTagName("head")[0];
+        var head = document.getElementsByTagName('head')[0];
         head.appendChild(trial);
       })();
   body.loading
@@ -27,7 +30,7 @@ html
       div.champagne
       div.fake.band
       div.section-face
-        div.background
+        video.background(src='/img/main/video-center.mp4', autoplay, muted, loop)
         div.band
           span.label
             | WEB DEVELOPEMENT<br/>
@@ -35,7 +38,7 @@ html
       div.fake.section-eye-left
       div.section-eye-left
         div.background-container
-          div.background
+          video.background(src='/img/main/video-left.mp4', autoplay, muted, loop)
         div.eye
           div.label
             | GRAPHIC &<br/>
@@ -46,7 +49,7 @@ html
       div.fake.section-eye-right
       div.section-eye-right
         div.background-container
-          div.background
+          video.background(src='/img/main/video-right.mp4', autoplay, muted, loop)
         div.eye
           div.label
             | CONSULTION &<br/>
@@ -54,30 +57,83 @@ html
         div.geometry
           div.top
           div.bottom
-      div.logo
-        img(src='/img/logo.svg')
+      div.languages
+        div.language-container
+          span.language-kor.selected
+        div.language-container
+          span.language-eng
+      div.nav
+        include ../img/logo.svg
+        input(type='checkbox', id='menu')
+        label.icon-menu(for='menu')
+      div.panel-sidebar
+        div.panel-menu
+          div.panel-outline
+          div.menu-header
+            span.language-label Language
+            span.language-kor.selected
+            span.language-eng
+          div.menu-item
+            a(href='#') PSS.D.A
+          div.menu-item
+            a(href='#') PORTFOLIO
+          div.menu-item
+            a(href='#') LIMITLESS
+          div.menu-item
+            a(href='#') CONTACT
     each content in contents
-      div.page-desc(style=`background-image: url(${content.image})`)
-        if (content.direction == 'left')
-          div.panel-left
-            div.panel-outline
-            div.panel-content
-              div.panel-title
-                != content.title
-              div.panel-body
-                != content.body
-            div.contact-container
-              div.contact
-        else
-          div.panel-right
-            div.panel-outline
-            div.contact-container
-              div.contact
-            div.panel-content
-              div.panel-body
-                != content.body
-              div.panel-title
-                != content.title
+      if(content.type == 'consulting')
+        div.page-consulting
+          div.page-desc
+            div.panel-left
+              div.panel-outline
+              div.panel-content
+                div.panel-title
+                  != content.title1
+                div.panel-body
+                  != content.body1
+              div.contact-container
+                div.contact
+          div.page-desc
+            div.panel-right
+              div.panel-outline
+              div.contact-container
+                div.contact
+              div.panel-content
+                div.panel-body
+                  != content.body2
+                div.panel-title
+                  != content.title2
+          div.half-champagne-right
+          div.half-champagne-left
+          div.desc-top
+            != content.content1
+          div.desc-center
+            != content.content2
+          div.desc-bottom
+            != content.content3
+      else
+        div.page-desc(style=`background-image: url(${content.image})`)
+          if (content.direction == 'left')
+            div.panel-left
+              div.panel-outline
+              div.panel-content
+                div.panel-title
+                  != content.title
+                div.panel-body
+                  != content.body
+              div.contact-container
+                div.contact
+          else
+            div.panel-right
+              div.panel-outline
+              div.contact-container
+                div.contact
+              div.panel-content
+                div.panel-body
+                  != content.body
+                div.panel-title
+                  != content.title
     svg#clip-defs(width='0', height='0')
       defs
         clipPath#clip-eye-left(clipPathUnits='objectBoundingBox')
@@ -92,3 +148,5 @@ html
           polygon(points='0 0, 0 1, 1 0')
         clipPath#clip-panel-right(clipPathUnits='objectBoundingBox')
           polygon(points='1 0, 1 1, 0 1')
+        clipPath#clip-panel-sidebar(clipPathUnits='objectBoundingBox')
+          polygon(points='0 0, 1 0, 1 1')

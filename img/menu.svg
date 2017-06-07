@@ -1,0 +1,15 @@
+<svg width="61px" height="61px" viewBox="0 0 61 61" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-407.000000, -369.000000)">
+            <g id="메뉴" transform="translate(407.000000, 369.000000)">
+                <circle id="Oval-2" stroke="#464B58" stroke-width="4" cx="30.5" cy="30.5" r="28.5"></circle>
+                <path d="M30.5,50 C41.2695526,50 50,41.2695526 50,30.5 C50,19.7304474 41.2695526,11 30.5,11 C19.7304474,11 11,19.7304474 11,30.5 C11,34.0635817 11.9559047,37.4038998 13.6252875,40.2785278 C17.000971,46.0913554 23.2940291,50 30.5,50 Z" id="Oval-2" stroke="#464B58" stroke-width="4"></path>
+                <circle id="Oval-2" stroke="#464B58" stroke-width="4" fill="#464B58" cx="30.5" cy="30.5" r="9.5"></circle>
+                <path d="M23.4981407,40 C22.8339531,28.4851433 22.8339531,22.2526159 23.4981407,21.3024177 C24.4944221,19.8771205 29.5837687,33.4813704 30.5,33.4813704 C31.254932,33.4813704 36.4485277,19.8549232 37.6013101,21.0936958 C38.0610694,21.5877503 38.1231914,27.8898517 37.7876762,40" id="Line" stroke="#ECEDEE" stroke-width="2" stroke-linecap="square"></path>
+            </g>
+        </g>
+    </g>
+</svg>

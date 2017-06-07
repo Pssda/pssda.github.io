@@ -1,9 +1,12 @@
 $color-primary: #464B58;
+$color-blue: #596993;
+$color-red: #9A3A87;
 $border-width: 2px;
 $logo-top: 57px;
 $logo-height: 87px;
 $loading-anim-duration: 1s;
 $contact-size: 87px;
+$champagne-background-position-y: 1024px;
 
 html,
 body {
@@ -31,7 +34,7 @@ body {
         opacity: 0;
       }
 
-      .logo {
+      .nav {
         top: calc(50% - #{$logo-top} - #{$logo-height} / 2);
       }
     }
@@ -46,11 +49,69 @@ body {
   right: 0;
 }
 
+@mixin panel {
+  position: absolute;
+  width: 50%;
+  top: 0;
+  height: 100vh;
+  background-color: $color-primary;
+  color: white;
+  overflow: hidden;
+
+  .panel-outline {
+    width: 100%;
+    height: 100%;
+    shape-margin: 2em;
+  }
+
+  .panel-content {
+    box-sizing: border-box;
+    padding: 2em;
+
+    .panel-title {
+      margin: 3em 0;
+      font-size: 1.06em;
+      text-align: center;
+    }
+  }
+
+  .contact-container {
+    text-align: center;
+    padding: 2em;
+
+    .contact {
+      display: inline-block;
+      cursor: pointer;
+      width: $contact-size;
+      height: $contact-size;
+      background: url(/img/contact.svg) no-repeat center;
+      background-size: contain;
+
+      &:hover {
+        background-image: url(/img/contact-highlight.svg);
+      }
+    }
+  }
+}
+
+.language-kor {
+  &:after {
+    content: 'Korean';
+  }
+}
+
+.language-eng {
+  &:after {
+    content: 'English';
+  }
+}
+
 .page {
   display: flex;
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .page-main {
@@ -63,7 +124,6 @@ body {
 
     &.band:hover + .section-face {
       .background {
-        top: 0;
         opacity: 1;
       }
 
@@ -76,11 +136,11 @@ body {
         background-color: $color-primary;
 
         .background-container {
-          display: none;
+          visibility: hidden;
         }
 
         .geometry {
-          display: block;
+          visibility: visible;
         }
       }
 
@@ -132,14 +192,16 @@ body {
 
   .champagne {
     @include fill;
-    background: url(/img/champagne.svg) repeat-y top center;
+    background: url(/img/champagne.svg) repeat-y center;
+    background-position-y: $champagne-background-position-y;
+    z-index: -2;
 
     @keyframes anim-champagne {
       from {
-        background-position-y: 800px;
+        background-position-y: 1810px;
       }
       to {
-        background-position-y: 0;
+        background-position-y: $champagne-background-position-y;
       }
     }
 
@@ -150,8 +212,8 @@ body {
     position: absolute;
     left: 0;
     right: 0;
-    top: 47vh;
-    height: 165px;
+    top: calc(56.8vh - 82px);
+    height: 164px;
   }
 
   .label {
@@ -163,15 +225,16 @@ body {
     transition: opacity $loading-anim-duration;
 
     .background {
-      position: absolute;
-      top: -100%;
-      left: 0;
-      right: 0;
-      height: 100%;
-      background: url(/img/main/background-center.png) no-repeat center;
-      background-size: cover;
+      @include fill;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translateX(-50%) translateY(-50%);
       opacity: 0;
-      transition: top 1s, opacity 1s;
+      transition: opacity 1s;
     }
 
     .band {
@@ -199,8 +262,13 @@ body {
 
       .background {
         @include fill;
-        background: no-repeat center;
-        background-size: cover;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        transform: translateX(-50%) translateY(-50%);
       }
     }
 
@@ -226,7 +294,7 @@ body {
 
     .geometry {
       @include fill;
-      display: none;
+      visibility: hidden;
 
       * {
         position: absolute;
@@ -236,8 +304,8 @@ body {
       }
 
       .top {
-        top: 43.3vh;
-        height: calc(40.9vh - 2em);
+        top: 56.8vh;
+        height: calc(27.4vh - 2em);
         border-bottom: none;
       }
 
@@ -263,10 +331,6 @@ body {
       @include clip;
       top: $border-width;
       right: $border-width;
-
-      .background {
-        background-image: url(/img/main/background-left.png);
-      }
     }
 
     .eye {
@@ -289,10 +353,6 @@ body {
       @include clip;
       top: $border-width;
       left: $border-width;
-
-      .background {
-        background-image: url(/img/main/background-right.png);
-      }
     }
 
     .eye {
@@ -302,16 +362,215 @@ body {
     }
   }
 
-  .logo {
+  .languages {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+
+    .language-container {
+      flex: 1;
+      font-size: .875em;
+      padding: 0 3em;
+      display: flex;
+      flex-direction: column;
+
+      .language {
+        text-decoration: underline;
+        cursor: pointer;
+
+        &.selected {
+          border-bottom: 2px solid $color-primary;
+        }
+      }
+
+      .language-kor {
+        @extend .language;
+        align-self: flex-end;
+        color: $color-blue;
+      }
+
+      .language-eng {
+        @extend .language;
+        align-self: flex-start;
+        color: $color-red;
+      }
+    }
+  }
+
+  .nav {
     position: absolute;
     left: 0;
     right: 0;
     top: $logo-top;
     text-align: center;
     transition: top $loading-anim-duration;
+    z-index: 3;
 
-    img {
+    svg {
+      position: relative;
       height: $logo-height;
+
+      .st0 {
+        fill: #B70117;
+        animation: anim-logo 60s infinite;
+        @keyframes anim-logo {
+          0% {
+            fill: #B70117;
+          }
+          9.09% {
+            fill: #898333;
+          }
+          18.18% {
+            fill: #39620C;
+          }
+          27.27% {
+            fill: #513389;
+          }
+          36.36% {
+            fill: #7A6544;
+          }
+          45.45% {
+            fill: #101010;
+          }
+          54.54% {
+            fill: #124886;
+          }
+          63.63% {
+            fill: #61340C;
+          }
+          72.72% {
+            fill: #115949;
+          }
+          81.81% {
+            fill: #7F7F7F;
+          }
+          90.90% {
+            fill: #044926;
+          }
+          100% {
+            fill: #B70117;
+          }
+        }
+      }
+    }
+
+    #menu {
+      display: none;
+
+      &:checked + .icon-menu {
+        background-image: url(/img/menu-selected.svg);
+      }
+    }
+
+    .icon-menu {
+      position: absolute;
+      top: 11.5px;
+      right: 40px;
+      width: 64px;
+      height: 64px;
+      background: url(/img/menu.svg) no-repeat center;
+      background-size: cover;
+      visibility: hidden;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    &.visible {
+      margin-top: -$logo-top;
+      position: fixed;
+      background-color: rgba(white, .9);
+
+      .icon-menu {
+        visibility: visible;
+      }
+
+      & + .panel-sidebar.visible {
+        right: 0;
+        opacity: 1;
+      }
+    }
+  }
+
+  .panel-sidebar {
+    @include panel;
+    position: fixed;
+    right: -50vw;
+    opacity: 0;
+    clip-path: url(#clip-panel-sidebar);
+    z-index: 2;
+    background-color: white;
+    transition: right 1s, opacity 1s;
+
+    .panel-menu {
+      @include fill;
+      left: $border-width;
+      bottom: $border-width;
+      clip-path: url(#clip-panel-sidebar);
+      background-color: $color-primary;
+      text-align: right;
+
+      .panel-outline {
+        float: left;
+        shape-outside: polygon(0 0, 0 100%, 100% 100%);
+        shape-margin: 6em;
+      }
+
+      .menu-header {
+        margin-top: $logo-height;
+        font-size: .875em;
+        padding: 1em;
+
+        > * {
+          margin-right: 1.5em;
+        }
+
+        .language-label {
+          &:after {
+            margin-left: 1em;
+            content: ':'
+          }
+        }
+
+        .language {
+          text-decoration: underline;
+          cursor: pointer;
+
+          &.selected {
+            border-bottom: 2px solid $color-primary;
+          }
+        }
+
+        .language-kor {
+          @extend .language;
+        }
+
+        .language-eng {
+          @extend .language;
+        }
+      }
+
+      .menu-item {
+        position: relative;
+        width: 100%;
+        text-align: left;
+        font-size: 1.5em;
+        margin: 56px 0;
+        white-space: nowrap;
+
+        a {
+          color: inherit;
+          border-bottom: 1px solid white;
+          text-decoration: none;
+
+          &:after {
+            content: '------------------------------------------------------------------------------------------------';
+            color: $color-primary;
+          }
+        }
+      }
     }
   }
 }
@@ -320,50 +579,6 @@ body {
   @extend .page;
   background-size: cover;
   background-position: center;
-
-  @mixin panel {
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    background-color: $color-primary;
-    color: white;
-    overflow: hidden;
-
-    .panel-outline {
-      width: 100%;
-      height: 100%;
-      shape-margin: 2em;
-    }
-
-    .panel-content {
-      box-sizing: border-box;
-      padding: 2em;
-
-      .panel-title {
-        margin: 3em 0;
-        font-size: 1.06em;
-        text-align: center;
-      }
-    }
-
-    .contact-container {
-      text-align: center;
-      padding: 2em;
-
-      .contact {
-        display: inline-block;
-        cursor: pointer;
-        width: $contact-size;
-        height: $contact-size;
-        background: url(/img/contact.svg) no-repeat center;
-        background-size: contain;
-
-        &:hover {
-          background-image: url(/img/contact-highlight.svg);
-        }
-      }
-    }
-  }
 
   .panel-left {
     @include panel;
@@ -396,7 +611,74 @@ body {
   }
 }
 
+.page-consulting {
+  @extend .page;
+  height: 200%;
+  display: flex;
+  flex-direction: column;
+
+  .half-champagne {
+    position: absolute;
+    height: 200vh;
+    width: 10vh;
+    background-repeat: repeat-y;
+    background-size: auto 100%;
+  }
+
+  .half-champagne-right {
+    @extend .half-champagne;
+    top: 0;
+    left: calc(50vw + 5em);
+    transform-origin: 100% 0;
+    background-image: url(/img/champagne-right.svg);
+    background-position: left -10em;
+  }
+
+  .half-champagne-left {
+    @extend .half-champagne;
+    bottom: 0;
+    right: calc(50vw + 5em);
+    transform-origin: 0 100%;
+    background-image: url(/img/champagne-left.svg);
+    background-position: right 10em;
+  }
+
+  .desc {
+    position: absolute;
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8em;
+    box-sizing: border-box;
+  }
+
+  .desc-top {
+    @extend .desc;
+    top: 0;
+    right: 0;
+    padding-left: 0;
+  }
+
+  .desc-center {
+    @extend .desc;
+    top: 50vh;
+    left: 25vw;
+    padding-left: 4em;
+    padding-right: 4em;
+  }
+
+  .desc-bottom {
+    @extend .desc;
+    bottom: 0;
+    left: 0;
+    padding-right: 0;
+  }
+}
+
 #clip-defs {
   position: absolute;
-  z-index: -1;
+  z-index: -999;
 }
