@@ -17,6 +17,8 @@ body {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   overflow-y: scroll;
   font-size: 16px;
   font-family: Baskerville Std Roman serif;
@@ -107,10 +109,11 @@ body {
 }
 
 .page {
+  flex-shrink: 0;
   display: flex;
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
 }
 
@@ -415,7 +418,7 @@ body {
 
       .st0 {
         fill: #B70117;
-        animation: anim-logo 60s infinite;
+        animation: anim-logo 45s infinite;
         @keyframes anim-logo {
           0% {
             fill: #B70117;
@@ -545,10 +548,18 @@ body {
 
         .language-kor {
           @extend .language;
+
+          &.selected {
+            color: red;
+          }
         }
 
         .language-eng {
           @extend .language;
+
+          &.selected {
+            color: blue;
+          }
         }
       }
 
