@@ -8,6 +8,7 @@ html
     meta(property='og:image', content='http://jasonpark.me/DuoCoder/branding/screenshot.png')
     meta(property='og:description', content=description)
     meta(http-equiv='x-ua-compatible', content='ie=edge')
+    meta(name='viewport' content='width=device-width, user-scalable=no')
     link(rel='stylesheet', href='stylesheet.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700')
     script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
@@ -25,34 +26,36 @@ html
         head.appendChild(trial);
       })();
   body.loading
+    div.champagne
     div.page-main
-      div.champagne
       div.fake.band
       div.section-face
         video.background(src='/img/main/video-center.mp4', autoplay, muted, loop)
         div.band
           span.label
-            | WEB DEVELOPEMENT<br/>
-            | & DESIGN
+            span WEB DESIGN
+            span DEVELOPMENT
       div.fake.section-eye-left
+        div.eye
       div.section-eye-left
         div.background-container
           video.background(src='/img/main/video-left.mp4', autoplay, muted, loop)
         div.eye
           div.label
-            | GRAPHIC &<br/>
-            | PUBLISHING
+            span GRAPHIC
+            span DESIGN
         div.geometry
           div.top
           div.bottom
       div.fake.section-eye-right
+        div.eye
       div.section-eye-right
         div.background-container
           video.background(src='/img/main/video-right.mp4', autoplay, muted, loop)
         div.eye
           div.label
-            | CONSULTION &<br/>
-            | MANAGEMENT
+            span CONSULTING
+            span MANAGEMENT
         div.geometry
           div.top
           div.bottom
@@ -61,28 +64,37 @@ html
           span.language-kor.selected
         div.language-container
           span.language-eng
-      div.nav
+      div.empty
         include ../img/logo.svg
-        input(type='checkbox', id='menu')
-        label.icon-menu(for='menu')
-      div.panel-sidebar
-        div.panel-menu
-          div.panel-outline
-          div.menu-header
-            span.language-label Language
-            span.language-kor.selected
-            span.language-eng
-          div.menu-item
-            a(href='#') PSS.D.A
-          div.menu-item
-            a(href='#') PORTFOLIO
-          div.menu-item
-            a(href='#') LIMITLESS
-          div.menu-item
-            a(href='#') CONTACT
+    div.nav
+      include ../img/logo.svg
+      include ../img/logo-mobile.svg
+      input#menu(type='checkbox')
+      label.icon-menu(for='menu')
+    div.panel-sidebar
+      div.panel-menu
+        div.panel-outline
+        div.menu-header
+          span.language-label Language
+          span.language-kor.selected
+          span.language-eng
+        div.menu-item
+          a(href='#about') PSS.D.A
+          div.strike-through
+        div.menu-item
+          a(href='#portfolio') PORTFOLIO
+          div.strike-through
+        div.menu-item
+          a(href='#limitless') LIMITLESS
+          div.strike-through
+        div.menu-item
+          a(href='#contact') CONTACT
+          div.strike-through
+        div.background
+    div#portfolio
     each content in contents
       if(content.type == 'consulting')
-        div.page-consulting
+        div.page-consulting.category#limitless(class=`category-${content.type}`)
           div.page-desc
             div.panel-left
               div.panel-outline
@@ -92,12 +104,12 @@ html
                 div.panel-body
                   != content.body1
               div.contact-container
-                div.contact
+                a.contact(href='#contact')
           div.page-desc
             div.panel-right
               div.panel-outline
               div.contact-container
-                div.contact
+                a.contact(href='#contact')
               div.panel-content
                 div.panel-body
                   != content.body2
@@ -107,13 +119,19 @@ html
           div.half-champagne-left
           div.desc-top
             != content.content1
+          div.contact-container
+            a.contact(href='#contact')
           div.desc-center
             != content.content2
+          div.contact-container
+            a.contact(href='#contact')
           div.desc-bottom
             != content.content3
       else
-        div.page-desc(style=`background-image: url(${content.image})`)
+        input.desc-switch(type='checkbox', id=content.name)
+        label.page-desc.category(class=`category-${content.type}`, for=content.name)
           if (content.direction == 'left')
+            div.picture(style=`background-image: url(${content.image})`)
             div.panel-left
               div.panel-outline
               div.panel-content
@@ -122,17 +140,49 @@ html
                 div.panel-body
                   != content.body
               div.contact-container
-                div.contact
+                a.contact(href='#contact')
           else
+            div.picture(style=`background-image: url(${content.image})`)
             div.panel-right
               div.panel-outline
               div.contact-container
-                div.contact
+                a.contact(href='#contact')
               div.panel-content
                 div.panel-body
                   != content.body
                 div.panel-title
                   != content.title
+    div.page-about#about
+      div.horizontal
+        div.about-1
+        div.vertical
+          div.about-2
+          div.about-3
+    div.page-about
+      div.horizontal
+        div.about-4
+        div.about-5
+    div.page-contact#contact
+      div.champagne-static
+      div.logo
+        include ../img/logo-colored.svg
+      div.corner-left
+      div.corner-right
+      form.contact-form
+        span.title CONTACT
+        div.input-container
+          div.row
+            input
+          div.row
+            input
+            input
+          div.row
+            input
+          div.row
+            input
+          div.row
+            textarea(rows='7')
+        button.submit(type='submit')
     svg#clip-defs(width='0', height='0')
       defs
         clipPath#clip-eye-left(clipPathUnits='objectBoundingBox')
@@ -149,3 +199,7 @@ html
           polygon(points='1 0, 1 1, 0 1')
         clipPath#clip-panel-sidebar(clipPathUnits='objectBoundingBox')
           polygon(points='0 0, 1 0, 1 1')
+        clipPath#clip-corner-left(clipPathUnits='objectBoundingBox')
+          polygon(points='0 0, 1 1, 0 1')
+        clipPath#clip-corner-right(clipPathUnits='objectBoundingBox')
+          polygon(points='1 0, 1 1, 0 1')
