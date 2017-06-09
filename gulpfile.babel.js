@@ -73,6 +73,80 @@ gulp.task('build-pug', () => {
     description: pkg.description,
     author: pkg.author,
     contents: [],
+    businesses: [
+      {
+        id: 'industry',
+        name: {
+          en: 'Industry',
+          ko: '산업',
+        }
+      }, {
+        id: 'restaurant',
+        name: {
+          en: 'Restaurant',
+          ko: '요식업',
+        }
+      }, {
+        id: 'design',
+        name: {
+          en: 'Design',
+          ko: '디자인',
+        }
+      }, {
+        id: 'finance',
+        name: {
+          en: 'Finance',
+          ko: '금융업',
+        }
+      }, {
+        id: 'education',
+        name: {
+          en: 'Education',
+          ko: '교육업',
+        }
+      }, {
+        id: 'service',
+        name: {
+          en: 'Service',
+          ko: '서비스업',
+        }
+      }, {
+        id: 'etc',
+        name: {
+          en: 'Etc.',
+          ko: '기타',
+        }
+      }
+    ],
+    colors: [
+      ['#FFFFFF', '#000000'],
+      ['#75C8F0', '#EA91DC'],
+      ['#939297', '#A93C30'],
+      ['#F8E81C', '#D0011B'],
+      ['#03428C', '#FFFFFF'],
+      ['', ''],
+    ],
+    styles: [
+      {
+        id: 'stylish',
+        name: {
+          en: 'I just want to have a stylish site',
+          ko: '나는 단지 세련된 사이트를 갖고 싶다.',
+        }
+      }, {
+        id: 'functional',
+        name: {
+          en: 'No, more',
+          ko: '아니요, 더',
+        }
+      }, {
+        id: 'idk',
+        name: {
+          en: 'I don\'t know',
+          ko: '나는 모른다.',
+        }
+      },
+    ]
   };
 
   const filename = (v) => {
@@ -92,11 +166,21 @@ gulp.task('build-pug', () => {
       loaded.name = name;
       for (const key in loaded) {
         if (/^(title|body|content)/.test(key)) {
-          loaded[key] = loaded[key].replace(/\n/g, '<br/>');
+          if (typeof loaded[key] === 'string') {
+            const str = loaded[key].replace(/\n/g, '<br/>');
+            loaded[key] = {
+              en: str,
+              ko: str,
+            };
+          } else {
+            for (const lang in loaded[key]) {
+              loaded[key][lang] = loaded[key][lang].replace(/\n/g, '<br/>');
+            }
+          }
         }
       }
     } else {
-      const image = path.join('assets', file);
+      const image = path.join('/assets', file);
       loaded = { image };
     }
     if (content) {

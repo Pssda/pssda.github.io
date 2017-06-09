@@ -35,14 +35,23 @@ $(document).ready(() => {
     $('.panel-sidebar').toggleClass('visible', this.checked);
   });
 
+  const scrollTo = scrollTop => {
+    $('body').animate({ scrollTop }, 500);
+  };
+
   $(document).on('click', 'a', function (e) {
-    const selector = $.attr(this, 'href');
+    let selector = $.attr(this, 'href');
     if (!selector.startsWith('#')) return;
 
+    if (selector.startsWith('#contact-')) {
+      const [new_selector, type] = selector.split('-');
+      selector = new_selector;
+      $('#select-type').val(type);
+      $('#select-type').change();
+    }
+
     e.preventDefault();
-    $('body').animate({
-      scrollTop: $(selector).offset().top
-    }, 500);
+    scrollTo($(selector).offset().top);
     $('#menu').prop('checked', false);
     $('#menu').change();
   });
@@ -57,16 +66,42 @@ $(document).ready(() => {
     $el.click(() => {
       $('.category').addClass('hide');
       $(`.category-${key}`).removeClass('hide');
-      $('body').animate({
-        scrollTop: $('#portfolio').offset().top
-      }, 500);
+      scrollTo($('#portfolio').offset().top);
     });
   });
 
   $('.nav svg').click(() => {
     $('.category').removeClass('hide');
-    $('body').animate({
-      scrollTop: 0
-    }, 500);
+    scrollTo(0);
+  });
+
+  $('#select-type').change(function () {
+    const type = $(this).val();
+    $('.input-container > *').removeClass('hide');
+    $('.input-container > *').find('input, textarea, select').prop('disabled', false);
+    let $els = null;
+    switch (type) {
+      case 'general':
+      case 'consulting':
+        $els = $('#row-logo, #row-color, #row-style');
+        break;
+      case 'graphic':
+        $els = $('#row-style');
+        break;
+    }
+    if ($els) {
+      $els.addClass('hide');
+      $els.find('input, textarea, select').prop('disabled', true);
+    }
+  });
+  $('#select-type').change();
+
+  $('#input-logo').change(function () {
+    const reader = new FileReader();
+    reader.onload = e => {
+      $('.logo-preview img')[0].src = e.target.result;
+      $('.logo-label').addClass('hide');
+    };
+    reader.readAsDataURL(this.files[0]);
   });
 });

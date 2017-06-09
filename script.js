@@ -49,14 +49,27 @@ $(document).ready(function () {
     $('.panel-sidebar').toggleClass('visible', this.checked);
   });
 
+  var scrollTo = function scrollTo(scrollTop) {
+    $('body').animate({ scrollTop: scrollTop }, 500);
+  };
+
   $(document).on('click', 'a', function (e) {
     var selector = $.attr(this, 'href');
     if (!selector.startsWith('#')) return;
 
+    if (selector.startsWith('#contact-')) {
+      var _selector$split = selector.split('-'),
+          _selector$split2 = _slicedToArray(_selector$split, 2),
+          new_selector = _selector$split2[0],
+          type = _selector$split2[1];
+
+      selector = new_selector;
+      $('#select-type').val(type);
+      $('#select-type').change();
+    }
+
     e.preventDefault();
-    $('body').animate({
-      scrollTop: $(selector).offset().top
-    }, 500);
+    scrollTo($(selector).offset().top);
     $('#menu').prop('checked', false);
     $('#menu').change();
   });
@@ -71,16 +84,42 @@ $(document).ready(function () {
     $el.click(function () {
       $('.category').addClass('hide');
       $('.category-' + key).removeClass('hide');
-      $('body').animate({
-        scrollTop: $('#portfolio').offset().top
-      }, 500);
+      scrollTo($('#portfolio').offset().top);
     });
   });
 
   $('.nav svg').click(function () {
     $('.category').removeClass('hide');
-    $('body').animate({
-      scrollTop: 0
-    }, 500);
+    scrollTo(0);
+  });
+
+  $('#select-type').change(function () {
+    var type = $(this).val();
+    $('.input-container > *').removeClass('hide');
+    $('.input-container > *').find('input, textarea, select').prop('disabled', false);
+    var $els = null;
+    switch (type) {
+      case 'general':
+      case 'consulting':
+        $els = $('#row-logo, #row-color, #row-style');
+        break;
+      case 'graphic':
+        $els = $('#row-style');
+        break;
+    }
+    if ($els) {
+      $els.addClass('hide');
+      $els.find('input, textarea, select').prop('disabled', true);
+    }
+  });
+  $('#select-type').change();
+
+  $('#input-logo').change(function () {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $('.logo-preview img')[0].src = e.target.result;
+      $('.logo-label').addClass('hide');
+    };
+    reader.readAsDataURL(this.files[0]);
   });
 });

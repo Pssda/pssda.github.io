@@ -17,7 +17,7 @@ body {
 }
 
 @mixin font {
-  font-family: Baskerville Std Roman serif;
+  font-family: Baskerville, seoul-namsan-jang, Std, Roman, serif;
 }
 
 body {
@@ -368,7 +368,6 @@ body {
 
       .language {
         text-decoration: underline;
-        cursor: pointer;
 
         &.selected {
           border-bottom: 2px solid $color-primary;
@@ -533,8 +532,8 @@ body {
       }
 
       .language {
+        color: white;
         text-decoration: underline;
-        cursor: pointer;
       }
 
       .language-kor {
@@ -641,7 +640,7 @@ body {
     left: calc(50vw + 5em);
     transform-origin: 100% 0;
     background-image: url(/img/champagne-right.svg);
-    background-position: left -10em;
+    background-position: left;
   }
 
   .half-champagne-left {
@@ -650,7 +649,7 @@ body {
     right: calc(50vw + 5em);
     transform-origin: 0 100%;
     background-image: url(/img/champagne-left.svg);
-    background-position: right 10em;
+    background-position: right;
   }
 
   .desc {
@@ -741,6 +740,9 @@ body {
   @extend .page;
   background-color: $color-primary;
   z-index: 4;
+  align-items: center;
+  height: auto;
+  min-height: 100vh;
 
   .champagne-static {
     @extend .fill;
@@ -786,10 +788,11 @@ body {
   }
 
   .contact-form {
-    position: absolute;
-    left: 25vw;
-    right: 25vw;
-    top: 183px;
+    position: relative;
+    width: 50vw;
+    box-sizing: border-box;
+    margin-top: 184px;
+    margin-bottom: 84px;
     background: $color-red;
     border-width: 12px 83px;
     border-color: $color-blue;
@@ -817,8 +820,9 @@ body {
       .row {
         display: flex;
         margin-bottom: 24px;
+        justify-content: center;
 
-        input, textarea {
+        input, textarea, select {
           @include font;
           flex: 1;
           min-width: 0;
@@ -827,25 +831,184 @@ body {
           padding: .5em 1em;
           font-size: 1em;
           margin-right: 24px;
+          background: white;
 
           &:last-child {
             margin-right: 0;
+          }
+        }
+
+        .select {
+          display: flex;
+          flex: 1;
+          background: white;
+
+          select {
+            height: 34px;
+            background: transparent;
+          }
+        }
+
+        &.hide {
+          display: none;
+        }
+      }
+
+      .row-logo {
+        @extend .row;
+        position: relative;
+        align-self: center;
+        width: 12em;
+        height: 8em;
+
+        .logo-label {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-sizing: border-box;
+          background: white;
+          cursor: pointer;
+
+          &.hide {
+            span {
+              display: none;
+            }
+          }
+        }
+
+        .logo-preview {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+
+        #input-logo {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+          margin: 0;
+          outline: none;
+          opacity: 0;
+        }
+      }
+
+      .row-block {
+        @extend .row;
+        flex-direction: column;
+
+        .block-title {
+          position: relative;
+          font-size: 1.06em;
+          color: white;
+          margin-bottom: 4px;
+          z-index: 1;
+
+          &:before {
+            border-top: 3px solid #dfdfdf;
+            content: "";
+            margin: 0 auto; /* this centers the line to the full width specified */
+            position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
+            top: 50%;
+            left: 0;
+            right: 4px;
+            bottom: 0;
+            z-index: -1;
+          }
+
+          span {
+            /* to hide the lines from behind the text, you have to set the background color the same as the container */
+            background: $color-red;
+            padding-right: 1em;
+          }
+        }
+
+        .radio-container {
+          border-radius: 8px;
+          background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(#2F2F2F, .74) 2px, rgba(#2F2F2F, .74) 10px);
+          display: flex;
+          flex-wrap: wrap;
+
+          input[type='radio'] {
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+            max-width: 1px;
+            flex-shrink: 0;
+
+            & + label {
+              color: white;
+              opacity: .74;
+              font-size: 0.9375em;
+              text-decoration: underline;
+              margin: .5em 1em;
+              cursor: pointer;
+
+              &.palette {
+                flex: 1;
+                height: 48px;
+                display: flex;
+                align-items: stretch;
+                margin: .3em 0 .3em 1em;
+                overflow: hidden;
+                box-sizing: border-box;
+
+                div {
+                  flex: 1;
+                }
+              }
+            }
+
+            &#color-0 + label.palette {
+              border-top-left-radius: 10px;
+              border-bottom-left-radius: 10px;
+            }
+
+            &#color-5 + label.palette {
+              margin-right: 1em;
+              border: 2px solid black;
+              border-top-right-radius: 10px;
+              border-bottom-right-radius: 10px;
+              background-color: white;
+              color: black;
+              text-decoration: none;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              text-align: center;
+              font-weight: normal;
+            }
+
+            &:checked + label {
+              opacity: 1;
+              font-weight: bold;
+            }
           }
         }
       }
     }
 
     .submit {
-      background-color: white;
-      width: 44px;
-      height: 44px;
-      border: none;
-      border-radius: 22px;
+      @include font;
+      background: white;
+      border: 1px solid #464B58;
+      border-radius: 8px;
+      padding: .2em 2em;
+      font-size: 1.06em;
       outline: none;
-
-      &:active {
-        background-color: red;
-      }
+      cursor: pointer;
     }
   }
 }
@@ -856,7 +1019,7 @@ body {
 }
 
 /* DESKTOP */
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 960px) {
   body {
     &.loading {
       .page {
@@ -892,7 +1055,7 @@ body {
 }
 
 /* MOBILE */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 959px) {
   $m-nav-height: 78px;
 
   .language-kor {
@@ -916,10 +1079,17 @@ body {
     padding-top: calc(#{$m-nav-height} + 4px);
     box-sizing: border-box;
 
+    .languages {
+      display: none;
+    }
+
     .label {
       flex-direction: row !important;
-      justify-content: space-around;
       font-size: 1.125em;
+
+      span {
+        flex: 1;
+      }
 
       span:first-child:after {
         content: '';
@@ -950,7 +1120,7 @@ body {
         align-items: stretch;
 
         .label {
-          margin-bottom: -4px;
+          //margin-bottom: -4px;
         }
       }
     }
@@ -1001,7 +1171,7 @@ body {
         justify-content: flex-start;
 
         .label {
-          margin-top: -4px;
+          //margin-top: -4px;
         }
       }
     }
@@ -1028,6 +1198,7 @@ body {
     justify-content: space-between;
     background-color: black !important;
     margin-top: 0 !important;
+    border-bottom: 1px solid white;
 
     svg:first-child {
       display: none;
@@ -1122,12 +1293,14 @@ body {
   }
 
   .desc-switch:checked + .page-desc .panel {
-    display: block;
+    max-height: 200vh;
+    opacity: 1;
   }
 
   .page-desc {
     height: auto;
     align-items: stretch;
+    cursor: pointer;
 
     .picture {
       position: static;
@@ -1135,15 +1308,22 @@ body {
     }
 
     .panel {
-      display: none;
       position: static;
       clip-path: none;
       width: auto;
       height: auto;
       overflow: visible;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 1s, opacity 1s;
 
       .panel-outline {
         display: none;
+      }
+
+      .panel-content {
+        display: flex;
+        flex-direction: column;
       }
 
       .contact-container {
@@ -1154,10 +1334,19 @@ body {
         right: 0;
       }
     }
+
+    .panel-right {
+      .panel-content {
+        flex-direction: column-reverse;
+        text-align: left;
+      }
+    }
   }
 
   .page-consulting {
     height: auto;
+    padding: 2em;
+    box-sizing: border-box;
 
     .page-desc {
       display: none;
@@ -1176,10 +1365,14 @@ body {
     }
 
     .desc {
-      position: static;
-      padding: 3em;
+      position: relative;
+      padding: 2em 4em;
       width: auto;
       height: auto;
+      top: auto;
+      bottom: auto;
+      left: auto;
+      right: auto;
 
       & + .contact-container {
         display: block;

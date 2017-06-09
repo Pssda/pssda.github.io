@@ -1,10 +1,10 @@
-<svg width="272px" height="300px" viewBox="0 0 272 300" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="300px" height="300px" viewBox="0 0 300 300" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.6">
-        <g id="Mobile" transform="translate(0.000000, -373.000000)">
-            <g id="메뉴" transform="translate(-26.000000, 375.000000)">
+        <g id="Mobile" transform="translate(-30.000000, -399.000000)">
+            <g id="메뉴" transform="translate(32.000000, 401.000000)">
                 <circle id="Oval-2" stroke="#DFE2E7" stroke-width="4" cx="148" cy="148" r="148"></circle>
                 <path d="M147.622951,242.245902 C199.881764,242.245902 242.245902,199.881764 242.245902,147.622951 C242.245902,95.3641381 199.881764,53 147.622951,53 C95.3641381,53 53,95.3641381 53,147.622951 C53,164.915085 57.6384885,181.123842 65.7391,195.072856 C82.1194658,223.279364 112.656272,242.245902 147.622951,242.245902 Z" id="Oval-2" stroke="#DFE2E7" stroke-width="4"></path>
                 <circle id="Oval-2" stroke="#DFE2E7" stroke-width="4" fill="#464B58" cx="148.098361" cy="148.098361" r="46.0983607"></circle>
