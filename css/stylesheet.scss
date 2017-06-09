@@ -1383,6 +1383,7 @@ body {
   .page-contact {
     height: auto;
     z-index: auto;
+    min-height: auto;
 
     .champagne-static,
     .logo,
@@ -1394,6 +1395,8 @@ body {
       position: static;
       border-width: 12px 0;
       padding: 18px 24px;
+      width: 100vw;
+      margin: 0;
     }
   }
 }
