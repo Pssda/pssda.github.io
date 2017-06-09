@@ -628,10 +628,10 @@ body {
 
   .half-champagne {
     position: absolute;
-    height: 200vh;
+    height: 100%;
     width: 10vh;
     background-repeat: repeat-y;
-    background-size: auto 100%;
+    background-size: 100% auto;
   }
 
   .half-champagne-right {
@@ -863,8 +863,10 @@ body {
 
         .logo-label {
           position: absolute;
-          width: 100%;
-          height: 100%;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -881,8 +883,10 @@ body {
 
         .logo-preview {
           position: absolute;
-          width: 100%;
-          height: 100%;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1366,7 +1370,7 @@ body {
 
     .desc {
       position: relative;
-      padding: 2em 4em;
+      padding: 2em 3em;
       width: auto;
       height: auto;
       top: auto;
@@ -1383,7 +1387,7 @@ body {
   .page-contact {
     height: auto;
     z-index: auto;
-    min-height: auto;
+    min-height: 0;
 
     .champagne-static,
     .logo,
