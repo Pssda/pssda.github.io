@@ -17,16 +17,16 @@ mixin template(lang)
       script(type='text/javascript', src='https://easy.myfonts.net/v2/js?sid=511(font-family=Baskerville+Std+Roman)&sid=513(font-family=Baskerville+Std+Bold)&key=LLSz7vuEvD', async='true')
       link(rel='stylesheet', href='/fonts/seoul-namsan-jang-l/stylesheet.css')
       link(rel='stylesheet', href='/fonts/seoul-namsan-jang-eb/stylesheet.css')
-    body.loading
+    body.desktop.loading
       div.champagne
       div.page-main
         div.fake.band
         div.section-face
           video.background(src='/img/main/video-center.mp4', autoplay, muted, loop)
           div.band
-            span.label
-              span= en ? 'WEB DESIGN' : '웹 디자인'
-              span= en ? 'DEVELOPMENT' : '개발'
+            div.label
+              div= en ? 'WEB DESIGN' : '웹 디자인'
+              div= en ? 'DEVELOPMENT' : '개발'
         div.fake.section-eye-left
           div.eye
         div.section-eye-left
@@ -34,8 +34,8 @@ mixin template(lang)
             video.background(src='/img/main/video-left.mp4', autoplay, muted, loop)
           div.eye
             div.label
-              span= en ? 'GRAPHIC' : '그래픽'
-              span= en ? 'DESIGN' : '디자인'
+              div= en ? 'GRAPHIC' : '그래픽'
+              div= en ? 'DESIGN' : '디자인'
           div.geometry
             div.top
             div.bottom
@@ -46,8 +46,8 @@ mixin template(lang)
             video.background(src='/img/main/video-right.mp4', autoplay, muted, loop)
           div.eye
             div.label
-              span= en ? 'CONSULTING' : '컨설팅'
-              span= en ? 'MANAGEMENT' : '매니지먼트'
+              div= en ? 'CONSULTING' : '컨설팅'
+              div= en ? 'MANAGEMENT' : '매니지먼트'
           div.geometry
             div.top
             div.bottom
@@ -74,10 +74,10 @@ mixin template(lang)
             a(href='#about') PSS.D.A
             div.strike-through
           div.menu-item
-            a(href='#portfolio') PORTFOLIO
+            a#menu-portfolio(href='#portfolio') PORTFOLIO
             div.strike-through
           div.menu-item
-            a(href='#limitless') LIMITLESS
+            a#menu-limitless(href='#limitless') LIMITLESS
             div.strike-through
           div.menu-item
             a(href='#contact') CONTACT
@@ -87,6 +87,17 @@ mixin template(lang)
       each content in contents
         if (content.type == 'consulting')
           div.page-consulting.category#limitless(class=`category-${content.type}`)
+            div.desc-container
+              div.desc-top
+                != content.content1[lang]
+              div.contact-container
+                a.contact(href=`#contact-${content.type}`)
+              div.desc-center
+                != content.content2[lang]
+              div.contact-container
+                a.contact(href=`#contact-${content.type}`)
+              div.desc-bottom
+                != content.content3[lang]
             div.page-desc
               div.panel-left
                 div.panel-outline
@@ -109,16 +120,6 @@ mixin template(lang)
                     != content.title2[lang]
             div.half-champagne-right
             div.half-champagne-left
-            div.desc-top
-              != content.content1[lang]
-            div.contact-container
-              a.contact(href=`#contact-${content.type}`)
-            div.desc-center
-              != content.content2[lang]
-            div.contact-container
-              a.contact(href=`#contact-${content.type}`)
-            div.desc-bottom
-              != content.content3[lang]
         else
           input.desc-switch(type='checkbox', id=content.name)
           label.page-desc.category(class=`category-${content.type}`, for=content.name)
@@ -160,16 +161,16 @@ mixin template(lang)
           include ../img/logo-colored.svg
         div.corner-left
         div.corner-right
-        form.contact-form
-          span.title CONTACT
+        form.contact-form(method='POST', enctype='multipart/form-data' action='http://localhost:3001/api/pssda/contact')
+          div.title CONTACT
           div.input-container
             div.row.center
               div.select
                 select#select-type(type='select', name='type', required)
                   option(value='general') General
+                  option(value='web') Web design & development
                   option(value='graphic') Graphic & design
                   option(value='consulting') Consulting & management
-                  option(value='web') Web design & development
             div.row-logo#row-logo
               div.logo-label
                 span= en ? 'Please put your logo' : '로고를 업로드해주세요'
@@ -186,7 +187,7 @@ mixin template(lang)
               div.block-title: span Please select your color
               div.radio-container
                 each color, i in colors
-                  input(type='radio', id=`color-${i}`, name='color', value=`${color[0]}${color[1]}`, required)
+                  input(type='radio', id=`color-${i}`, name='color', value=`${color[0]} ${color[1]}`, required)
                   label.palette(for=`color-${i}`)
                     if (i < 5)
                       div(style=`background-color: ${color[0]}`)

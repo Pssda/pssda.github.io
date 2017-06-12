@@ -45,7 +45,7 @@ gulp.task('build-css', () => {
   gutil.log('\n\nBuild CSS Paths: \n', cssDir, '\n\n');
 
   return gulp.src(cssDir)
-    .pipe(autoprefixer('last 2 version', 'ie 8', 'ie 9'))
+    .pipe(autoprefixer('last 2 versions', 'ie 10', 'ie 11'))
     .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
     .pipe(header(banner, { pkg }))
     .pipe(gulp.dest(outputPaths.css))

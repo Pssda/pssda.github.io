@@ -1,4 +1,6 @@
 $(document).ready(() => {
+  const ie = !!detectIE();
+
   window.setTimeout(() => {
     $('body').removeClass('loading');
     window.ShapesPolyfill.run();
@@ -19,6 +21,10 @@ $(document).ready(() => {
       transform: `rotate(${angle}deg)`,
       right: `${width / 2 + padding}px`,
     });
+    const desktop = !ie && width > 960;
+    const mobile = !desktop;
+    $('body').toggleClass('desktop', desktop);
+    $('body').toggleClass('mobile', mobile);
   };
   onResize();
   window.onresize = onResize;
@@ -36,18 +42,20 @@ $(document).ready(() => {
   });
 
   const scrollTo = scrollTop => {
-    $('body').animate({ scrollTop }, 500);
+    $('html,body').animate({ scrollTop }, 500);
   };
 
   $(document).on('click', 'a', function (e) {
     let selector = $.attr(this, 'href');
-    if (!selector.startsWith('#')) return;
+    if (selector[0] !== '#') return;
 
-    if (selector.startsWith('#contact-')) {
-      const [new_selector, type] = selector.split('-');
+    const [new_selector, type] = selector.split('-');
+    if (new_selector === '#contact') {
       selector = new_selector;
-      $('#select-type').val(type);
-      $('#select-type').change();
+      if (type) {
+        $('#select-type').val(type);
+        $('#select-type').change();
+      }
     }
 
     e.preventDefault();
@@ -57,15 +65,17 @@ $(document).ready(() => {
   });
 
   const filter = [
-    [$('.section-eye-left .eye'), 'graphic'],
-    [$('.section-eye-right .eye'), 'consulting'],
-    [$('.band'), 'web'],
+    [$('.section-eye-left .eye'), ['graphic']],
+    [$('.section-eye-right .eye'), ['consulting']],
+    [$('.band'), ['web']],
+    [$('#menu-portfolio'), ['graphic', 'web']],
+    [$('#menu-limitless'), ['consulting']],
   ];
 
-  filter.forEach(([$el, key]) => {
+  filter.forEach(([$el, keys]) => {
     $el.click(() => {
       $('.category').addClass('hide');
-      $(`.category-${key}`).removeClass('hide');
+      keys.every(key => $(`.category-${key}`).removeClass('hide'));
       scrollTo($('#portfolio').offset().top);
     });
   });
@@ -105,3 +115,25 @@ $(document).ready(() => {
     reader.readAsDataURL(this.files[0]);
   });
 });
+
+// https://codepen.io/gapcode/pen/vEJNZN
+function detectIE() {
+  const ua = window.navigator.userAgent;
+  const msie = ua.indexOf('MSIE ');
+  if (msie > 0) {
+    return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+  }
+
+  const trident = ua.indexOf('Trident/');
+  if (trident > 0) {
+    const rv = ua.indexOf('rv:');
+    return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+  }
+
+  const edge = ua.indexOf('Edge/');
+  if (edge > 0) {
+    return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+  }
+
+  return false;
+}

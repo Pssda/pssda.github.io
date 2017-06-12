@@ -17,7 +17,7 @@ body {
 }
 
 @mixin font {
-  font-family: Baskerville, seoul-namsan-jang, Std, Roman, serif;
+  font-family: Baskerville, seoul-namsan-jang, serif;
 }
 
 body {
@@ -106,13 +106,13 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   overflow: hidden;
-  transition: height 1s, opacity 1s;
+  transition: max-height 1s, opacity 1s;
 
   &.hide {
-    height: 0;
+    max-height: 0;
     opacity: 0;
   }
 }
@@ -211,7 +211,7 @@ body {
     text-align: center;
     flex-direction: column;
 
-    span:first-child:after {
+    div:first-child:after {
       content: ' &'
     }
   }
@@ -508,6 +508,7 @@ body {
     clip-path: url(#clip-panel-sidebar);
     background-color: $color-primary;
     text-align: right;
+    overflow: hidden;
 
     .panel-outline {
       float: left;
@@ -626,6 +627,49 @@ body {
   flex-direction: column;
   background-color: white;
 
+  .desc-container {
+    @extend .fill;
+
+    .desc {
+      position: absolute;
+      width: 50vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8em;
+      box-sizing: border-box;
+      z-index: 1;
+
+      & + .contact-container {
+        display: none;
+      }
+    }
+
+    .desc-top {
+      @extend .desc;
+      top: 0;
+      right: 0;
+      padding-left: 0;
+    }
+
+    .desc-center {
+      @extend .desc;
+      top: 50vh;
+      left: 25vw;
+      padding-left: 4em;
+      padding-right: 4em;
+    }
+
+    .desc-bottom {
+      @extend .desc;
+      bottom: 0;
+      left: 0;
+      padding-right: 0;
+    }
+  }
+
   .half-champagne {
     position: absolute;
     height: 100%;
@@ -650,44 +694,6 @@ body {
     transform-origin: 0 100%;
     background-image: url(/img/champagne-left.svg);
     background-position: right;
-  }
-
-  .desc {
-    position: absolute;
-    width: 50vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 8em;
-    box-sizing: border-box;
-
-    & + .contact-container {
-      display: none;
-    }
-  }
-
-  .desc-top {
-    @extend .desc;
-    top: 0;
-    right: 0;
-    padding-left: 0;
-  }
-
-  .desc-center {
-    @extend .desc;
-    top: 50vh;
-    left: 25vw;
-    padding-left: 4em;
-    padding-right: 4em;
-  }
-
-  .desc-bottom {
-    @extend .desc;
-    bottom: 0;
-    left: 0;
-    padding-right: 0;
   }
 }
 
@@ -797,9 +803,8 @@ body {
     border-width: 12px 83px;
     border-color: $color-blue;
     border-style: solid;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: block;
+    text-align: center;
     padding: 18px 77px;
 
     .title {
@@ -832,6 +837,7 @@ body {
           font-size: 1em;
           margin-right: 24px;
           background: white;
+          appearance: none;
 
           &:last-child {
             margin-right: 0;
@@ -905,6 +911,7 @@ body {
           margin: 0;
           outline: none;
           opacity: 0;
+          cursor: pointer;
         }
       }
 
@@ -963,6 +970,7 @@ body {
                 flex: 1;
                 height: 48px;
                 display: flex;
+                opacity: .4;
                 align-items: stretch;
                 margin: .3em 0 .3em 1em;
                 overflow: hidden;
@@ -1023,43 +1031,41 @@ body {
 }
 
 /* DESKTOP */
-@media screen and (min-width: 960px) {
-  body {
-    &.loading {
-      .page {
-        display: none;
-      }
-
-      .page-main {
-        display: flex;
-        .section-face,
-        .section-eye {
-          opacity: 0;
-        }
-
-      }
-
-      .nav {
-        top: calc(50% - #{$logo-top} - #{$logo-height} / 2);
-      }
+body.desktop {
+  &.loading {
+    .page {
+      display: none;
     }
 
-    .champagne {
-      animation: anim-champagne 3s ease-out;
-      @keyframes anim-champagne {
-        from {
-          background-position-y: 1810px;
-        }
-        to {
-          background-position-y: $champagne-background-position-y;
-        }
+    .page-main {
+      display: flex;
+      .section-face,
+      .section-eye {
+        opacity: 0;
+      }
+
+    }
+
+    .nav {
+      top: calc(50% - #{$logo-top} - #{$logo-height} / 2);
+    }
+  }
+
+  .champagne {
+    animation: anim-champagne 3s ease-out;
+    @keyframes anim-champagne {
+      from {
+        background-position-y: 1810px;
+      }
+      to {
+        background-position-y: $champagne-background-position-y;
       }
     }
   }
 }
 
 /* MOBILE */
-@media screen and (max-width: 959px) {
+body.mobile {
   $m-nav-height: 78px;
 
   .language-kor {
@@ -1091,11 +1097,11 @@ body {
       flex-direction: row !important;
       font-size: 1.125em;
 
-      span {
+      div {
         flex: 1;
       }
 
-      span:first-child:after {
+      div:first-child:after {
         content: '';
       }
     }
@@ -1203,6 +1209,7 @@ body {
     background-color: black !important;
     margin-top: 0 !important;
     border-bottom: 1px solid white;
+    transition: none;
 
     svg:first-child {
       display: none;
@@ -1236,12 +1243,12 @@ body {
         animation-iteration-count: 2;
         @keyframes anim-menu-bg {
           0% {
-            background-position-x: 0;
-            background-position-y: 100%;
+            background-position-x: left;
+            background-position-y: bottom;
           }
           100% {
-            background-position-x: 100%;
-            background-position-y: 0;
+            background-position-x: right;
+            background-position-y: top;
           }
         }
       }
@@ -1312,8 +1319,9 @@ body {
     }
 
     .panel {
-      position: static;
+      position: relative;
       clip-path: none;
+      top: auto;
       width: auto;
       height: auto;
       overflow: visible;
@@ -1349,7 +1357,6 @@ body {
 
   .page-consulting {
     height: auto;
-    padding: 2em;
     box-sizing: border-box;
 
     .page-desc {
@@ -1368,24 +1375,33 @@ body {
       right: 0 !important;
     }
 
-    .desc {
+    .desc-container {
       position: relative;
-      padding: 2em 3em;
-      width: auto;
-      height: auto;
       top: auto;
       bottom: auto;
       left: auto;
       right: auto;
+      padding: 2em;
 
-      & + .contact-container {
+      .desc {
+        position: relative;
+        padding: 2em 3em;
+        width: auto;
+        height: auto;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        right: auto;
         display: block;
+
+        & + .contact-container {
+          display: block;
+        }
       }
     }
   }
 
   .page-contact {
-    height: auto;
     z-index: auto;
     min-height: 0;
 
@@ -1399,7 +1415,7 @@ body {
       position: static;
       border-width: 12px 0;
       padding: 18px 24px;
-      width: 100vw;
+      width: 100%;
       margin: 0;
     }
   }
