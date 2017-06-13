@@ -1,0 +1,19 @@
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M0,0 L16,0 L16,16 L5,16 L5,16 C2.23857625,16 3.38176876e-16,13.7614237 0,11 L0,0 Z" id="path-1"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop" transform="translate(-702.000000, -311.000000)">
+            <g id="Group-10" transform="translate(702.000000, 311.000000)">
+                <g id="Rectangle-14">
+                    <use fill="#464B58" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <path stroke="#4A4A4A" stroke-width="1" d="M0.5,0.5 L0.5,11 C0.5,13.4852814 2.51471863,15.5 5,15.5 L15.5,15.5 L15.5,0.5 L0.5,0.5 Z"></path>
+                </g>
+                <path d="M4.5,4.5 L11.5,11.5" id="Line" stroke="#FFFFFF" stroke-width="1.5" opacity="0.625056612" stroke-linecap="square"></path>
+                <path d="M4.5,4.5 L11.5,11.5" id="Line" stroke="#FFFFFF" stroke-width="1.5" opacity="0.625056612" stroke-linecap="square" transform="translate(8.000000, 8.000000) scale(-1, 1) translate(-8.000000, -8.000000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

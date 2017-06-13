@@ -125,12 +125,43 @@ $(document).ready(function () {
   $('#select-type').change();
 
   $('#input-logo').change(function () {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      $('.logo-preview img')[0].src = e.target.result;
-      $('.logo-label').addClass('hide');
-    };
-    reader.readAsDataURL(this.files[0]);
+    if ($('#input-logo').val()) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('.logo-preview img')[0].src = e.target.result;
+        $('.logo-label').addClass('hide');
+        $('.logo-clear').removeClass('hide');
+      };
+      reader.readAsDataURL(this.files[0]);
+    } else {
+      $('.logo-preview img')[0].src = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
+      $('.logo-label').removeClass('hide');
+      $('.logo-clear').addClass('hide');
+    }
+  });
+
+  $('.logo-clear').click(function () {
+    $('#input-logo').val('');
+    $('#input-logo').change();
+  });
+
+  $('.contact-form').ajaxForm({
+    success: function success(data, status) {
+      alert('문의주셔서 감사합니다. 빠른 시일 내로 연락드리겠습니다.');
+      $('.contact-form')[0].reset();
+      $('#input-logo').change();
+    }, error: function error(data) {
+      console.error(data);
+      var fields = data.responseJSON.error.fields;
+
+      fields.forEach(function (field) {
+        return $('[name=\'' + field + '\']').addClass('error');
+      });
+    }
+  });
+
+  $('input, textarea, select').on('input change', function () {
+    $(this).removeClass('error');
   });
 });
 

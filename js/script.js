@@ -107,12 +107,40 @@ $(document).ready(() => {
   $('#select-type').change();
 
   $('#input-logo').change(function () {
-    const reader = new FileReader();
-    reader.onload = e => {
-      $('.logo-preview img')[0].src = e.target.result;
-      $('.logo-label').addClass('hide');
-    };
-    reader.readAsDataURL(this.files[0]);
+    if ($('#input-logo').val()) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        $('.logo-preview img')[0].src = e.target.result;
+        $('.logo-label').addClass('hide');
+        $('.logo-clear').removeClass('hide');
+      };
+      reader.readAsDataURL(this.files[0]);
+    } else {
+      $('.logo-preview img')[0].src = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
+      $('.logo-label').removeClass('hide');
+      $('.logo-clear').addClass('hide');
+    }
+  });
+
+  $('.logo-clear').click(() => {
+    $('#input-logo').val('');
+    $('#input-logo').change();
+  });
+
+  $('.contact-form').ajaxForm({
+    success: (data, status) => {
+      alert('문의주셔서 감사합니다. 빠른 시일 내로 연락드리겠습니다.');
+      $('.contact-form')[0].reset();
+      $('#input-logo').change();
+    }, error: (data) => {
+      console.error(data);
+      const { responseJSON: { error: { fields } } } = data;
+      fields.forEach(field => $(`[name='${field}']`).addClass('error'));
+    }
+  });
+
+  $('input, textarea, select').on('input change', function () {
+    $(this).removeClass('error');
   });
 });
 

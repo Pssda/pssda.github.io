@@ -14,7 +14,8 @@ mixin template(lang)
       script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
       script(type='text/javascript', src='/script.js')
       script(type='text/javascript', src='/lib/shapes-polyfill.min.js', data-auto-run='false')
-      script(type='text/javascript', src='https://easy.myfonts.net/v2/js?sid=511(font-family=Baskerville+Std+Roman)&sid=513(font-family=Baskerville+Std+Bold)&key=LLSz7vuEvD', async='true')
+      script(type='text/javascript', src='/lib/jquery.form.min.js')
+      link(rel='stylesheet', href='/fonts/baskerville/stylesheet.css')
       link(rel='stylesheet', href='/fonts/seoul-namsan-jang-l/stylesheet.css')
       link(rel='stylesheet', href='/fonts/seoul-namsan-jang-eb/stylesheet.css')
     body.desktop.loading
@@ -161,33 +162,33 @@ mixin template(lang)
           include ../img/logo-colored.svg
         div.corner-left
         div.corner-right
-        form.contact-form(method='POST', enctype='multipart/form-data' action='http://localhost:3001/api/pssda/contact')
+        form.contact-form(method='POST', enctype='multipart/form-data' action='https://prendssoin.com/api/pssda/contact')
           div.title CONTACT
           div.input-container
             div.row.center
               div.select
-                select#select-type(type='select', name='type', required)
+                select#select-type(type='select', name='type')
                   option(value='general') General
                   option(value='web') Web design & development
                   option(value='graphic') Graphic & design
                   option(value='consulting') Consulting & management
             div.row-logo#row-logo
+              div.logo-preview: img
+              input#input-logo(type='file', name='logo')
               div.logo-label
                 span= en ? 'Please put your logo' : '로고를 업로드해주세요'
-              div.logo-preview
-                img
-              input#input-logo(type='file', name='logo', required)
+              div.logo-clear.hide
             div.row-block
               div.block-title: span What's your business
               div.radio-container
                 each business, i in businesses
-                  input(type='radio', id=`business-${i}`, name='business', value=business.id, required)
+                  input(type='radio', id=`business-${i}`, name='business', value=business.id, checked=(i == 6))
                   label(for=`business-${i}`)= business.name[lang]
             div.row-block#row-color
               div.block-title: span Please select your color
               div.radio-container
                 each color, i in colors
-                  input(type='radio', id=`color-${i}`, name='color', value=`${color[0]} ${color[1]}`, required)
+                  input(type='radio', id=`color-${i}`, name='color', value=`${color[0]} ${color[1]}`, checked=(i == 5))
                   label.palette(for=`color-${i}`)
                     if (i < 5)
                       div(style=`background-color: ${color[0]}`)
@@ -198,14 +199,14 @@ mixin template(lang)
               div.block-title: span Please select your style
               div.radio-container
                 each style, i in styles
-                  input(type='radio', id=`style-${i}`, name='style', value=style.id, required)
+                  input(type='radio', id=`style-${i}`, name='style', value=style.id, checked=(i == 2))
                   label(for=`style-${i}`)= style.name[lang]
             div.row
-              input(type='text', name='name', placeholder="Name (Company's name)", required)
+              input(type='text', name='name', placeholder="Name (Company's name)")
             div.row
-              input(type='text', name='contact', placeholder='Phone number or email', required)
+              input(type='text', name='contact', placeholder='Phone number or email')
             div.row
-              textarea(rows='7', name='memo', placeholder='Memo', required)
+              textarea(rows='7', name='memo', placeholder='Memo')
           button.submit(type='submit') SEND
       svg#clip-defs(width='0', height='0')
         defs
