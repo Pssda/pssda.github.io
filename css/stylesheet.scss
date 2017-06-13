@@ -535,22 +535,18 @@ body {
       .language {
         color: white;
         text-decoration: underline;
-      }
-
-      .language-kor {
-        @extend .language;
 
         &.selected {
           color: red;
         }
       }
 
+      .language-kor {
+        @extend .language;
+      }
+
       .language-eng {
         @extend .language;
-
-        &.selected {
-          color: blue;
-        }
       }
     }
 
@@ -765,6 +761,7 @@ body {
 
     svg {
       height: $logo-height;
+      cursor: pointer;
     }
   }
 
@@ -800,12 +797,12 @@ body {
     margin-top: 184px;
     margin-bottom: 84px;
     background: $color-red;
-    border-width: 12px 83px;
+    border-width: 12px 5vw;
     border-color: $color-blue;
     border-style: solid;
     display: block;
     text-align: center;
-    padding: 18px 77px;
+    padding: 18px 3vw;
 
     .title {
       margin-top: 12px;
@@ -953,6 +950,7 @@ body {
           color: white;
           margin-bottom: 4px;
           z-index: 1;
+          text-align: left;
 
           &:before {
             border-top: 3px solid #dfdfdf;
@@ -1123,7 +1121,7 @@ body.mobile {
 
     .label {
       flex-direction: row !important;
-      font-size: 1.125em;
+      font-size: 1.25em;
 
       div {
         flex: 1;

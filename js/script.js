@@ -81,7 +81,7 @@ $(document).ready(() => {
     });
   });
 
-  $('.nav svg').click(() => {
+  $('.nav svg, .page-contact .logo svg').click(() => {
     $('.category').removeClass('hide');
     scrollTo(0);
   });
