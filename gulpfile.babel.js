@@ -12,6 +12,7 @@ import connect from 'gulp-connect';
 import pug from 'gulp-pug';
 import sass from 'gulp-sass';
 import pkg from './package.json';
+import uglify from 'gulp-uglify';
 
 const outputPaths = {
   css: './',
@@ -59,6 +60,7 @@ gulp.task('build-js', () => {
   return gulp.src(jsDir)
     .on('error', onError)
     .pipe(babel())
+    .pipe(uglify())
     .pipe(header(banner, { pkg }))
     .pipe(gulp.dest(outputPaths.js))
     .pipe(connect.reload());

@@ -11,13 +11,15 @@ mixin template(lang)
       meta(http-equiv='x-ua-compatible', content='ie=edge')
       meta(name='viewport' content='width=device-width, user-scalable=no')
       link(rel='stylesheet', href='/stylesheet.css')
+      link(rel='stylesheet', href='/fonts/baskerville/stylesheet.css')
+      link(rel='stylesheet', href='/fonts/seoul-namsan-jang-l/stylesheet.css')
+      link(rel='stylesheet', href='/fonts/seoul-namsan-jang-eb/stylesheet.css')
       script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
       script(type='text/javascript', src='/script.js')
       script(type='text/javascript', src='/lib/shapes-polyfill.min.js', data-auto-run='false')
       script(type='text/javascript', src='/lib/jquery.form.min.js')
-      link(rel='stylesheet', href='/fonts/baskerville/stylesheet.css')
-      link(rel='stylesheet', href='/fonts/seoul-namsan-jang-l/stylesheet.css')
-      link(rel='stylesheet', href='/fonts/seoul-namsan-jang-eb/stylesheet.css')
+      script(type='text/javascript').
+        lang = '#{lang}';
     body.desktop.loading
       div.champagne
       div.page-main

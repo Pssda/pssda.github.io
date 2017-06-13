@@ -1,4 +1,5 @@
 $(document).ready(() => {
+  const en = lang === 'en';
   const ie = !!detectIE();
 
   window.setTimeout(() => {
@@ -129,7 +130,9 @@ $(document).ready(() => {
 
   $('.contact-form').ajaxForm({
     success: (data, status) => {
-      alert('문의주셔서 감사합니다. 빠른 시일 내로 연락드리겠습니다.');
+      alert(en ?
+        'Thank you for contacting us. We will get back to you soon.' :
+        '문의주셔서 감사합니다. 빠른 시일 내로 연락드리겠습니다.');
       $('.contact-form')[0].reset();
       $('#input-logo').change();
     }, error: (data) => {
