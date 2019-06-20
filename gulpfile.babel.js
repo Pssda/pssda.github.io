@@ -30,9 +30,7 @@ gulp.task('buildJs', () =>
 
 gulp.task('buildPug', () => {
   const locals = {
-    title: pkg.name,
-    description: pkg.description,
-    author: pkg.author,
+    title: pkg.description,
     contents: [],
     businesses: [{
       id: 'industry',
