@@ -176,6 +176,7 @@ body {
       clip-path: url(#clip-eye-left-hover);
       clip-path: polygon(0 0, 0 100%, 50% 100%, 100% 0);
     }
+
     &.section-eye-left:hover + .section-eye-left {
       @include clip-hover-eye-left;
 
@@ -188,6 +189,7 @@ body {
       clip-path: url(#clip-eye-right-hover);
       clip-path: polygon(100% 0, 100% 100%, 50% 100%, 0 0);
     }
+
     &.section-eye-right:hover + .section-eye-right {
       @include clip-hover-eye-right;
 
@@ -720,18 +722,22 @@ body {
     @extend .about;
     background-image: url(/img/about/item-1.png);
   }
+
   .about-2 {
     @extend .about;
     background-image: url(/img/about/item-2.png);
   }
+
   .about-3 {
     @extend .about;
     background-image: url(/img/about/item-3.png);
   }
+
   .about-4 {
     @extend .about;
     background-image: url(/img/about/item-4.png);
   }
+
   .about-5 {
     @extend .about;
     background-color: #DCD0C6;
@@ -1065,6 +1071,7 @@ body.desktop {
 
     .page-main {
       display: flex;
+
       .section-face,
       .section-eye {
         opacity: 0;
