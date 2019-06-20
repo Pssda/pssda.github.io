@@ -1,125 +1,82 @@
 'use strict';
 
-import extend from 'extend';
-import fs from 'fs';
 import path from 'path';
+import fs from 'fs';
 import gulp from 'gulp';
-import babel from 'gulp-babel';
-import autoprefixer from 'gulp-autoprefixer';
-import header from 'gulp-header';
-import gutil from 'gulp-util';
-import connect from 'gulp-connect';
 import pug from 'gulp-pug';
 import sass from 'gulp-sass';
-import pkg from './package.json';
+import connect from 'gulp-connect';
+import babel from 'gulp-babel';
 import uglify from 'gulp-uglify';
+import pkg from './package';
 
-const outputPaths = {
-  css: './',
-  js: './',
-  pug: './',
-};
+const srcPath = path.join(__dirname, 'src');
+const dataPath = path.join(srcPath, 'data');
+const jsPath = path.join(srcPath, 'js');
+const pugPath = path.join(srcPath, 'pug');
+const sassPath = path.join(srcPath, 'scss');
+const staticPath = path.join(srcPath, 'static');
+const builtPath = './built';
+const port = 8080;
 
-const banner = [
-  '/**',
-  ' * <%= pkg.name %> - <%= pkg.description %>',
-  ' * @version v<%= pkg.version %>',
-  ' * @author <%= pkg.author %>',
-  ' * @link <%= pkg.homepage %>',
-  ' * @license <%= pkg.license %>',
-  ' */',
-  ''
-].join('\n');
-
-// Build Directories
-const cssDir = path.join(__dirname, 'css', '**', '*.scss');
-const jsDir = path.join(__dirname, 'js', '**', '*.js');
-const pugDir = path.join(__dirname, 'pug', '**', '*.pug');
-
-function onError(err) {
-  console.log(err);
-  this.emit('end');
-}
-
-// CSS
-gulp.task('build-css', () => {
-  gutil.log('\n\nBuild CSS Paths: \n', cssDir, '\n\n');
-
-  return gulp.src(cssDir)
-    .pipe(autoprefixer('last 2 versions', 'ie 10', 'ie 11'))
-    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-    .pipe(header(banner, { pkg }))
-    .pipe(gulp.dest(outputPaths.css))
-    .pipe(connect.reload());
-});
-
-// JS
-gulp.task('build-js', () => {
-  gutil.log('\n\nBuild JS Paths: \n', jsDir, '\n\n');
-
-  return gulp.src(jsDir)
-    .on('error', onError)
+gulp.task('buildJs', () =>
+  gulp
+    .src(path.join(jsPath, 'script.js'))
     .pipe(babel())
     .pipe(uglify())
-    .pipe(header(banner, { pkg }))
-    .pipe(gulp.dest(outputPaths.js))
-    .pipe(connect.reload());
-});
+    .pipe(gulp.dest(builtPath))
+    .pipe(connect.reload()),
+);
 
-// PUG
-gulp.task('build-pug', () => {
-  gutil.log('\n\nBuild pug Paths: \n', pugDir, '\n\n');
-
+gulp.task('buildPug', () => {
   const locals = {
     title: pkg.name,
     description: pkg.description,
     author: pkg.author,
     contents: [],
-    businesses: [
-      {
-        id: 'industry',
-        name: {
-          en: 'Industry',
-          ko: '산업',
-        }
-      }, {
-        id: 'restaurant',
-        name: {
-          en: 'Restaurant',
-          ko: '요식업',
-        }
-      }, {
-        id: 'design',
-        name: {
-          en: 'Design',
-          ko: '디자인',
-        }
-      }, {
-        id: 'finance',
-        name: {
-          en: 'Finance',
-          ko: '금융업',
-        }
-      }, {
-        id: 'education',
-        name: {
-          en: 'Education',
-          ko: '교육업',
-        }
-      }, {
-        id: 'service',
-        name: {
-          en: 'Service',
-          ko: '서비스업',
-        }
-      }, {
-        id: 'etc',
-        name: {
-          en: 'Etc.',
-          ko: '기타',
-        }
-      }
-    ],
+    businesses: [{
+      id: 'industry',
+      name: {
+        en: 'Industry',
+        ko: '산업',
+      },
+    }, {
+      id: 'restaurant',
+      name: {
+        en: 'Restaurant',
+        ko: '요식업',
+      },
+    }, {
+      id: 'design',
+      name: {
+        en: 'Design',
+        ko: '디자인',
+      },
+    }, {
+      id: 'finance',
+      name: {
+        en: 'Finance',
+        ko: '금융업',
+      },
+    }, {
+      id: 'education',
+      name: {
+        en: 'Education',
+        ko: '교육업',
+      },
+    }, {
+      id: 'service',
+      name: {
+        en: 'Service',
+        ko: '서비스업',
+      },
+    }, {
+      id: 'etc',
+      name: {
+        en: 'Etc.',
+        ko: '기타',
+      },
+    }],
     colors: [
       ['#FFFFFF', '#000000'],
       ['#75C8F0', '#EA91DC'],
@@ -128,96 +85,98 @@ gulp.task('build-pug', () => {
       ['#03428C', '#FFFFFF'],
       ['', ''],
     ],
-    styles: [
-      {
-        id: 'stylish',
-        name: {
-          en: 'I just want to have a stylish site',
-          ko: '나는 단지 세련된 사이트를 갖고 싶다.',
-        }
-      }, {
-        id: 'functional',
-        name: {
-          en: 'No, more',
-          ko: '아니요, 더',
-        }
-      }, {
-        id: 'idk',
-        name: {
-          en: 'I don\'t know',
-          ko: '나는 모른다.',
-        }
+    styles: [{
+      id: 'stylish',
+      name: {
+        en: 'I just want to have a stylish site',
+        ko: '나는 단지 세련된 사이트를 갖고 싶다.',
       },
-    ]
+    }, {
+      id: 'functional',
+      name: {
+        en: 'No, more',
+        ko: '아니요, 더',
+      },
+    }, {
+      id: 'idk',
+      name: {
+        en: 'I don\'t know',
+        ko: '나는 모른다.',
+      },
+    }],
   };
 
-  const filename = (v) => {
-    const s = v.split('.');
-    const ext = s.pop();
-    const name = s.join('.');
-    return { name, ext };
-  };
-  const assetsDir = path.join(__dirname, 'assets');
-  const contents = [];
-  fs.readdirSync(assetsDir).forEach((file) => {
-    const { name, ext } = filename(file);
-    const content = contents.find(content => content.name === name);
-    let loaded;
-    if (ext === 'js') {
-      loaded = require(path.join(assetsDir, name));
-      loaded.name = name;
-      for (const key in loaded) {
-        if (/^(title|body|content)/.test(key)) {
-          if (typeof loaded[key] === 'string') {
-            const str = loaded[key].replace(/\n/g, '<br/>');
-            loaded[key] = {
-              en: str,
-              ko: str,
-            };
-          } else {
-            for (const lang in loaded[key]) {
-              loaded[key][lang] = loaded[key][lang].replace(/\n/g, '<br/>');
-            }
+  const contents = fs.readdirSync(dataPath).filter(file => file.endsWith('.js')).map(file => {
+    const name = file.slice(0, -3);
+    const filePath = path.join(dataPath, file);
+    delete require.cache[require.resolve(filePath)];
+    const loaded = require(filePath);
+    loaded.name = name;
+    loaded.image = path.join('/img/contents', `${name}.png`);
+    for (const key in loaded) {
+      if (/^(title|body|content)/.test(key)) {
+        if (typeof loaded[key] === 'string') {
+          const str = loaded[key].replace(/\n/g, '<br/>');
+          loaded[key] = {
+            en: str,
+            ko: str,
+          };
+        } else {
+          for (const lang in loaded[key]) {
+            loaded[key][lang] = loaded[key][lang].replace(/\n/g, '<br/>');
           }
         }
       }
-    } else {
-      const image = path.join('/assets', file);
-      loaded = { image };
     }
-    if (content) {
-      extend(content, loaded);
-    } else {
-      contents.push(loaded);
-    }
+    return loaded;
   });
   contents.sort((a, b) => a.date ? -a.date.localeCompare(b.date) : 1);
-  extend(locals, { contents });
+  Object.assign(locals, { contents });
 
-  return gulp.src(pugDir)
-    .on('error', onError)
+  return gulp
+    .src(path.join(pugPath, '**', '*.pug'))
     .pipe(pug({ locals }))
-    .pipe(gulp.dest(outputPaths.pug))
+    .pipe(gulp.dest(builtPath))
     .pipe(connect.reload());
 });
 
-// Build
-gulp.task('build', ['build-css', 'build-js', 'build-pug']);
+gulp.task('buildSass', () =>
+  gulp
+    .src(path.join(sassPath, 'stylesheet.scss'))
+    .pipe(sass({ outputStyle: 'compressed' }))
+    .pipe(gulp.dest(builtPath))
+    .pipe(connect.reload()),
+);
 
-// Server
-gulp.task('connect', function () {
+gulp.task('copyStatic', () =>
+  gulp
+    .src(path.join(staticPath, '**', '*'), { base: staticPath })
+    .pipe(gulp.dest(builtPath)),
+);
+
+gulp.task('openServer', done => {
   connect.server({
-    port: process.env.PORT || 8080,
-    livereload: true
+    port,
+    root: builtPath,
+    livereload: true,
   });
+  done();
 });
 
-// Watch
-gulp.task('watch', function () {
-  gulp.watch(cssDir, ['build-css']);
-  gulp.watch(jsDir, ['build-js']);
-  gulp.watch(pugDir, ['build-pug']);
+gulp.task('closeServer', done => {
+  connect.serverClose();
+  done();
 });
 
-// Default
-gulp.task('default', ['connect', 'watch']);
+gulp.task('watch', done => {
+  gulp.watch(jsPath, gulp.series('buildJs'));
+  gulp.watch(dataPath, gulp.series('buildPug'));
+  gulp.watch(pugPath, gulp.series('buildPug'));
+  gulp.watch(sassPath, gulp.series('buildSass'));
+  gulp.watch(staticPath, gulp.series('copyStatic'));
+  done();
+});
+
+gulp.task('build', gulp.parallel('buildJs', 'buildPug', 'buildSass', 'copyStatic'));
+
+gulp.task('default', gulp.parallel('openServer', 'build', 'watch'));

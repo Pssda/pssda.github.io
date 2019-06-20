@@ -60,10 +60,10 @@ mixin template(lang)
           div.language-container
             a.language-eng(class=en && 'selected', href='/')
         div.empty
-          include ../img/logo.svg
+          include ../static/img/logo.svg
       div.nav
-        include ../img/logo.svg
-        include ../img/logo-mobile.svg
+        include ../static/img/logo.svg
+        include ../static/img/logo-mobile.svg
         input#menu(type='checkbox')
         label.icon-menu(for='menu')
       div.panel-sidebar
@@ -88,7 +88,7 @@ mixin template(lang)
           div.background
       div#portfolio
       each content in contents
-        if (content.type == 'consulting')
+        if (content.type === 'consulting')
           div.page-consulting.category#limitless(class=`category-${content.type}`)
             div.desc-container
               div.desc-top
@@ -126,7 +126,7 @@ mixin template(lang)
         else
           input.desc-switch(type='checkbox', id=content.name)
           label.page-desc.category(class=`category-${content.type}`, for=content.name)
-            if (content.direction == 'left')
+            if (content.direction === 'left')
               div.picture(style=`background-image: url(${content.image})`)
               div.panel-left
                 div.panel-outline
@@ -161,7 +161,7 @@ mixin template(lang)
       div.page-contact#contact
         div.champagne-static
         div.logo
-          include ../img/logo-colored.svg
+          include ../static/img/logo-colored.svg
         div.corner-left
         div.corner-right
         form.contact-form(method='POST', enctype='multipart/form-data' action='https://prendssoin.com/api/pssda/contact')
